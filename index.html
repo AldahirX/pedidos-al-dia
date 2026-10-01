@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>PEDIDOS AL DÍA - Negocio Familiar</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --primary: #c2410c;
+      --primary-hover: #9a3412;
+      --pendiente-bg: #fffbeb;
+      --pendiente-text: #b45309;
+      --pendiente-border: #fde68a;
+      --listo-bg: #eff6ff;
+      --listo-text: #1d4ed8;
+      --listo-border: #bfdbfe;
+      --entregado-bg: #f0fdf4;
+      --entregado-text: #15803d;
+      --entregado-border: #bbf7d0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
+    header { background: #1e293b; color: white; padding: 18px 16px; border-bottom: 3px solid var(--primary); }
+    .header-content { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+    .subtitle { font-size: 0.75rem; color: #94a3b8; }
+    main { max-width: 600px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 18px; }
+    
+    /* RESUMEN DEL DÍA */
+    .resumen-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .resumen-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
+    .resumen-total-box { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px dashed var(--border); margin-bottom: 12px; }
+    .resumen-total-label { font-size: 0.95rem; font-weight: 600; }
+    .resumen-total-amount { font-size: 1.8rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .metricas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+    .metrica-item { padding: 8px 4px; border-radius: 8px; background: #f1f5f9; }
+    .metrica-num { font-size: 1.2rem; font-weight: 700; }
+    .metrica-label { font-size: 0.7rem; color: var(--muted); text-transform: capitalize; }
+    
+    /* FORMULARIO */
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+    .form-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: #334155; margin-bottom: 4px; }
+    input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.15); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    button.btn-primary { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.15s; min-height: 44px; }
+    button.btn-primary:active { background: var(--primary-hover); transform: scale(0.99); }
+    
+    /* LISTA DE PEDIDOS */
+    .pedidos-header { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+    .pedidos-header h2 { font-size: 1rem; font-weight: 700; }
+    .badge-count { font-size: 0.75rem; color: var(--muted); }
+    .pedidos-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    .pedido-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+    .pedido-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .pedido-cliente { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .pedido-hora { font-size: 0.8rem; font-weight: 600; color: var(--muted); background: #f1f5f9; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+    .pedido-producto { font-size: 0.9rem; color: #334155; line-height: 1.35; }
+    .pedido-precio { font-size: 0.95rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+    .pedido-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 4px; }
+    .btn-estado { border: 1px solid var(--border); background: #f8fafc; padding: 8px 4px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; min-height: 38px; }
+    .btn-estado.active-pendiente { background: var(--pendiente-bg); color: var(--pendiente-text); border-color: var(--pendiente-border); font-weight: 700; }
+    .btn-estado.active-listo { background: var(--listo-bg); color: var(--listo-text); border-color: var(--listo-border); font-weight: 700; }
+    .btn-estado.active-entregado { background: var(--entregado-bg); color: var(--entregado-text); border-color: var(--entregado-border); font-weight: 700; text-decoration: line-through; }
+    .empty-state { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 0.9rem; background: var(--card); border: 1px dashed var(--border); border-radius: 12px; }
+    .btn-del { background: transparent; border: none; color: #94a3b8; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 4px; align-self: flex-end; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div>
+        <h1>PEDIDOS AL DÍA</h1>
+        <div class="subtitle">Panadería y Cocina Familiar</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 3. RESUMEN DEL DÍA -->
+    <section class="resumen-card">
+      <div class="resumen-title">Resumen del Día</div>
+      <div class="resumen-total-box">
+        <span class="resumen-total-label">Total a cobrar hoy:</span>
+        <span class="resumen-total-amount" id="resumen-total">$0</span>
+      </div>
+      <div class="metricas-grid">
+        <div class="metrica-item">
+          <div class="metrica-num" id="cant-pendientes" style="color: var(--pendiente-text);">0</div>
+          <div class="metrica-label">Pendientes</div>
+        </div>
+        <div class="metrica-item">
+          <div class="metrica-num" id="cant-listos" style="color: var(--listo-text);">0</div>
+          <div class="metrica-label">Listos</div>
+        </div>
+        <div class="metrica-item">
+          <div class="metrica-num" id="cant-entregados" style="color: var(--entregado-text);">0</div>
+          <div class="metrica-label">Entregados</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. CAPTURAR PEDIDO -->
+    <section class="form-card">
+      <h2>+ Nuevo Pedido</h2>
+      <form id="form-pedido">
+        <div class="form-group">
+          <label for="cliente">Nombre del Cliente *</label>
+          <input type="text" id="cliente" required placeholder="Ej: Doña Carmen / Juan (Taller)">
+        </div>
+        <div class="form-group">
+          <label for="producto">Producto / Detalle *</label>
+          <input type="text" id="producto" required placeholder="Ej: 2 panes caseros + 6 facturas">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="hora">Hora de Entrega *</label>
+            <input type="time" id="hora" required>
+          </div>
+          <div class="form-group">
+            <label for="total">Total a Cobrar ($)</label>
+            <input type="number" id="total" step="0.5" min="0" placeholder="0.00">
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Guardar Pedido</button>
+      </form>
+    </section>
+
+    <!-- 2. CAMBIO DE ESTADO Y LISTA DE PEDIDOS -->
+    <section>
+      <div class="pedidos-header">
+        <h2>Pedidos de Hoy</h2>
+        <span class="badge-count" id="badge-total">0 pedidos</span>
+      </div>
+      <div id="lista-pedidos" class="pedidos-list"></div>
+    </section>
+  </main>
+
+  <script>
+    // PUNTOS CRÍTICOS DONDE ALGUIEN SUELE EQUIVOCARSE:
+    // 1. Manejo de LocalStorage: Siempre envolver JSON.parse en try/catch para evitar pantalla blanca si se corrompe el storage.
+    // 2. Coerción de números: Usar parseFloat y fallback a 0 para no concatenar strings ni obtener NaN en el total acumulado.
+    // 3. Sanitización básica en template strings: Usar textContent o escapar para evitar inyecciones si los clientes contienen símbolos.
+    
+    var STORAGE_KEY = 'pedidos_al_dia_single_file_data';
+    var pedidos = [];
+
+    // Inicializar hora con +30 mins por defecto para conveniencia del usuario
+    (function initHora() {
+      var d = new Date();
+      d.setMinutes(d.getMinutes() + 30);
+      var hh = String(d.getHours()).padStart(2, '0');
+      var mm = String(Math.floor(d.getMinutes() / 5) * 5).padStart(2, '0');
+      var inputHora = document.getElementById('hora');
+      if (inputHora) inputHora.value = hh + ':' + mm;
+    })();
+
+    // Cargar datos
+    function cargarPedidos() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          pedidos = JSON.parse(raw);
+          if (!Array.isArray(pedidos)) pedidos = [];
+        } else {
+          // Datos iniciales de demostración
+          pedidos = [
+            { id: '1', cliente: 'Doña Rosa', producto: '2 panes campesinos', hora: '10:30', total: 7500, estado: 'pendiente' },
+            { id: '2', cliente: 'Carlos (Taller)', producto: '1 docena de medialunas', hora: '11:00', total: 9200, estado: 'listo' },
+            { id: '3', cliente: 'Marta Gómez', producto: '1 tarta de ricota', hora: '09:00', total: 12000, estado: 'entregado' }
+          ];
+        }
+      } catch (err) {
+        console.error('Error al parsear pedidos:', err);
+        pedidos = [];
+      }
+      render();
+    }
+
+    function guardarYRender() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(pedidos));
+      } catch (err) {
+        console.error('Error al guardar pedidos:', err);
+      }
+      render();
+    }
+
+    // Formatear montos en moneda legible
+    function formatearMonto(num) {
+      return '$' + (Number(num) || 0).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+    }
+
+    // Renderizar lista y resumen del día
+    function render() {
+      var listaEl = document.getElementById('lista-pedidos');
+      var totalCobrarEl = document.getElementById('resumen-total');
+      var cantPendEl = document.getElementById('cant-pendientes');
+      var cantListEl = document.getElementById('cant-listos');
+      var cantEntrEl = document.getElementById('cant-entregados');
+      var badgeTotalEl = document.getElementById('badge-total');
+
+      var totalDia = 0;
+      var pends = 0;
+      var listos = 0;
+      var entregados = 0;
+
+      // Calcular resumen
+      for (var i = 0; i < pedidos.length; i++) {
+        var p = pedidos[i];
+        totalDia += (parseFloat(p.total) || 0);
+        if (p.estado === 'pendiente') pends++;
+        else if (p.estado === 'listo') listos++;
+        else if (p.estado === 'entregado') entregados++;
+      }
+
+      totalCobrarEl.textContent = formatearMonto(totalDia);
+      cantPendEl.textContent = pends;
+      cantListEl.textContent = listos;
+      cantEntrEl.textContent = entregados;
+      badgeTotalEl.textContent = pedidos.length + (pedidos.length === 1 ? ' pedido' : ' pedidos');
+
+      // Dibujar lista
+      if (pedidos.length === 0) {
+        listaEl.innerHTML = '<div class="empty-state">No hay pedidos registrados todavía.<br>Completá el formulario arriba para empezar.</div>';
+        return;
+      }
+
+      var html = '';
+      for (var j = 0; j < pedidos.length; j++) {
+        var item = pedidos[j];
+        var isPend = item.estado === 'pendiente';
+        var isList = item.estado === 'listo';
+        var isEntr = item.estado === 'entregado';
+
+        html += '<div class="pedido-card">';
+        html += '  <div class="pedido-top">';
+        html += '    <div class="pedido-cliente">' + escapeHtml(item.cliente) + '</div>';
+        html += '    <div class="pedido-hora">⏰ ' + escapeHtml(item.hora) + '</div>';
+        html += '  </div>';
+        html += '  <div class="pedido-producto">' + escapeHtml(item.producto) + '</div>';
+        html += '  <div class="pedido-precio">Total: ' + formatearMonto(item.total) + '</div>';
+        
+        // Botones de cambio de estado
+        html += '  <div class="pedido-actions">';
+        html += '    <button class="btn-estado ' + (isPend ? 'active-pendiente' : '') + '" onclick="cambiarEstado(' + j + ', \'pendiente\')">⏳ Pendiente</button>';
+        html += '    <button class="btn-estado ' + (isList ? 'active-listo' : '') + '" onclick="cambiarEstado(' + j + ', \'listo\')">✨ Listo</button>';
+        html += '    <button class="btn-estado ' + (isEntr ? 'active-entregado' : '') + '" onclick="cambiarEstado(' + j + ', \'entregado\')">✅ Entregado</button>';
+        html += '  </div>';
+
+        html += '  <button class="btn-del" onclick="eliminarPedido(' + j + ')">Eliminar</button>';
+        html += '</div>';
+      }
+      listaEl.innerHTML = html;
+    }
+
+    // Sanitizador básico contra XSS
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Funciones globales para eventos onclick
+    window.cambiarEstado = function(index, nuevoEstado) {
+      if (pedidos[index]) {
+        pedidos[index].estado = nuevoEstado;
+        guardarYRender();
+      }
+    };
+
+    window.eliminarPedido = function(index) {
+      if (confirm('¿Eliminar este pedido?')) {
+        pedidos.splice(index, 1);
+        guardarYRender();
+      }
+    };
+
+    // Manejar envío de formulario
+    document.getElementById('form-pedido').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var clienteInput = document.getElementById('cliente');
+      var productoInput = document.getElementById('producto');
+      var horaInput = document.getElementById('hora');
+      var totalInput = document.getElementById('total');
+
+      var clienteVal = clienteInput.value.trim();
+      var productoVal = productoInput.value.trim();
+      var horaVal = horaInput.value.trim();
+      // Ojo con parseFloat: si está vacío o no es número, fijar 0
+      var totalVal = parseFloat(totalInput.value) || 0;
+
+      if (!clienteVal || !productoVal || !horaVal) {
+        alert('Por favor completá cliente, producto y hora de entrega.');
+        return;
+      }
+
+      pedidos.unshift({
+        id: String(Date.now()),
+        cliente: clienteVal,
+        producto: productoVal,
+        hora: horaVal,
+        total: totalVal,
+        estado: 'pendiente'
+      });
+
+      clienteInput.value = '';
+      productoInput.value = '';
+      totalInput.value = '';
+      clienteInput.focus();
+
+      guardarYRender();
+    });
+
+    // Iniciar app al cargar ventana
+    window.onload = cargarPedidos;
+  </script>
+</body>
+</html>
