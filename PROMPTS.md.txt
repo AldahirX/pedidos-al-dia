@@ -20,3 +20,12 @@ Corregí la validación para que permita cualquier precio numérico positivo con
 
 
 4. Prueba en celular real con pantalla responsive desde 320px, botones adaptados para uso táctil y diseño evidencias/celular.png
+
+
+5. Agregá a la app PEDIDOS AL DÍA el sello de IA con salida estructurada JSON:
+
+1. Un botón en cada tarjeta de pedido que diga "📱 Generar mensaje WhatsApp". Al tocarlo, abre una ventana/modal con un mensaje cordial listo para copiar o enviar al cliente confirmando su pedido, hora de entrega y monto total.
+2. Un botón en el resumen general que diga "📊 Resumen de producción mañana". Al tocarlo, analiza todos los pedidos del día y devuelve un resumen formateado de los productos y cantidades que la panadería/cocina debe preparar.
+3. Incluí una función de respaldo (fallback) por si la IA no responde o no hay conexión, mostrando un mensaje estático predeterminado para que la app nunca se caiga.
+
+Dame los bloques de código o el archivo actualizado con estas dos funciones.
