@@ -1,0 +1,10 @@
+ROL: Sos un desarrollador senior de aplicaciones web.
+CONTEXTO: Estoy construyendo una app llamada PEDIDOS AL DÍA para un negocio familiar de pan o comida.
+El problema que resuelve es: Los pedidos llegan por mensajes y se pierden entre chats.
+TAREA: Generá la primera versión funcional, con estas tres funciones y nada más:
+Capturar pedido con nombre del cliente, producto y hora de entrega.
+Cambio de estado del pedido: pendiente, listo, entregado.
+Resumen del día con el total a cobrar.
+RESTRICCIONES: en español, en un solo archivo HTML (con CSS y JavaScript embebidos en el mismo archivo), sin librerías de pago, sin login, sin base de datos en servidor todavía. Que se vea bien en un celular. Código comentado en los puntos donde alguien vaya a equivocarse.
+FORMATO DE SALIDA: el archivo HTML completo con su código, y al final una lista de lo que NO hiciste y por qué.
+CRITERIO DE ACEPTACIÓN: abro la app, agrego un pedido con cliente, producto y hora, cambio su estado y veo el resumen del día con el total sin ningún error en la consola.
