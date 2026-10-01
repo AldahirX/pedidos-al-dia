@@ -2,83 +2,90 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>PEDIDOS AL DÍA - Negocio Familiar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PEDIDOS AL DÍA</title>
   <style>
     :root {
-      --bg: #f8fafc;
+      --bg: #f5f5f4;
       --card: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --primary: #c2410c;
-      --primary-hover: #9a3412;
-      --pendiente-bg: #fffbeb;
-      --pendiente-text: #b45309;
-      --pendiente-border: #fde68a;
-      --listo-bg: #eff6ff;
-      --listo-text: #1d4ed8;
-      --listo-border: #bfdbfe;
-      --entregado-bg: #f0fdf4;
-      --entregado-text: #15803d;
-      --entregado-border: #bbf7d0;
+      --text: #1c1917;
+      --muted: #78716c;
+      --border: #e7e5e4;
+      --primary: #b45309;
+      --primary-hover: #92400e;
+      --pend-bg: #fef3c7;
+      --pend-text: #92400e;
+      --pend-border: #fde68a;
+      --list-bg: #e0f2fe;
+      --list-text: #0369a1;
+      --list-border: #bae6fd;
+      --entr-bg: #dcfce7;
+      --entr-text: #15803d;
+      --entr-border: #bbf7d0;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 60px; }
-    header { background: #1e293b; color: white; padding: 18px 16px; border-bottom: 3px solid var(--primary); }
-    .header-content { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
-    .subtitle { font-size: 0.75rem; color: #94a3b8; }
-    main { max-width: 600px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 18px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
+    header { background: #1c1917; color: white; padding: 14px 16px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 10; }
+    .header-box { max-width: 480px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .brand-title { font-size: 1.15rem; font-weight: 800; }
+    .brand-sub { font-size: 0.72rem; color: #fde68a; }
+    main { max-width: 480px; margin: 0 auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 14px; }
     
     /* RESUMEN DEL DÍA */
-    .resumen-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-    .resumen-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; margin-bottom: 12px; }
-    .resumen-total-box { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 12px; border-bottom: 1px dashed var(--border); margin-bottom: 12px; }
-    .resumen-total-label { font-size: 0.95rem; font-weight: 600; }
-    .resumen-total-amount { font-size: 1.8rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
-    .metricas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
-    .metrica-item { padding: 8px 4px; border-radius: 8px; background: #f1f5f9; }
-    .metrica-num { font-size: 1.2rem; font-weight: 700; }
-    .metrica-label { font-size: 0.7rem; color: var(--muted); text-transform: capitalize; }
+    .resumen-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .resumen-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+    .resumen-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+    .total-box { background: #fffbeb; border: 1px solid #fef3c7; border-radius: 12px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .total-desc { font-size: 0.85rem; font-weight: 700; color: #78350f; }
+    .total-monto { font-size: 1.7rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .counters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .counter-btn { background: #fafaf9; border: 1px solid var(--border); border-radius: 10px; padding: 8px 6px; text-align: center; cursor: pointer; min-height: 48px; }
+    .counter-btn.active { border-color: var(--primary); background: #fffbeb; }
+    .counter-num { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .counter-txt { font-size: 0.7rem; color: var(--muted); font-weight: 600; margin-top: 2px; }
     
-    /* FORMULARIO */
-    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-    .form-card h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; }
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 0.8rem; font-weight: 600; color: #334155; margin-bottom: 4px; }
-    input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none; }
-    input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(194, 65, 12, 0.15); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    button.btn-primary { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: background 0.15s; min-height: 44px; }
-    button.btn-primary:active { background: var(--primary-hover); transform: scale(0.99); }
-    
-    /* LISTA DE PEDIDOS */
-    .pedidos-header { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
-    .pedidos-header h2 { font-size: 1rem; font-weight: 700; }
-    .badge-count { font-size: 0.75rem; color: var(--muted); }
-    .pedidos-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-    .pedido-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
-    .pedido-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .pedido-cliente { font-size: 1rem; font-weight: 700; color: var(--text); }
-    .pedido-hora { font-size: 0.8rem; font-weight: 600; color: var(--muted); background: #f1f5f9; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-    .pedido-producto { font-size: 0.9rem; color: #334155; line-height: 1.35; }
-    .pedido-precio { font-size: 0.95rem; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
-    .pedido-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 4px; }
-    .btn-estado { border: 1px solid var(--border); background: #f8fafc; padding: 8px 4px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; cursor: pointer; min-height: 38px; }
-    .btn-estado.active-pendiente { background: var(--pendiente-bg); color: var(--pendiente-text); border-color: var(--pendiente-border); font-weight: 700; }
-    .btn-estado.active-listo { background: var(--listo-bg); color: var(--listo-text); border-color: var(--listo-border); font-weight: 700; }
-    .btn-estado.active-entregado { background: var(--entregado-bg); color: var(--entregado-text); border-color: var(--entregado-border); font-weight: 700; text-decoration: line-through; }
-    .empty-state { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 0.9rem; background: var(--card); border: 1px dashed var(--border); border-radius: 12px; }
-    .btn-del { background: transparent; border: none; color: #94a3b8; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 4px; align-self: flex-end; }
+    /* CAPTURA DE PEDIDO */
+    .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .form-card h2 { font-size: 0.95rem; font-weight: 800; margin-bottom: 12px; }
+    .campo { margin-bottom: 10px; }
+    label { display: block; font-size: 0.78rem; font-weight: 700; color: #44403c; margin-bottom: 4px; }
+    input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); background: #fafaf9; border-radius: 10px; font-size: 0.95rem; color: var(--text); outline: none; min-height: 44px; }
+    input:focus { border-color: var(--primary); background: #ffffff; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-submit { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.92rem; font-weight: 700; cursor: pointer; min-height: 44px; margin-top: 4px; }
+    .btn-submit:active { background: var(--primary-hover); }
+    .alerta { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; padding: 8px 12px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 10px; display: none; }
+
+    /* LISTA Y ESTADOS */
+    .seccion-pedidos { display: flex; flex-direction: column; gap: 8px; }
+    .pedidos-title-bar { display: flex; justify-content: space-between; align-items: center; padding: 0 4px; }
+    .pedidos-title-bar h2 { font-size: 0.95rem; font-weight: 800; }
+    .filtro-aviso { font-size: 0.75rem; color: var(--primary); cursor: pointer; text-decoration: underline; }
+    .pedido-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .pedido-card.estado-entregado { background: #fafaf9; opacity: 0.85; }
+    .pedido-card.estado-entregado .pedido-cliente { text-decoration: line-through; color: var(--muted); }
+    .card-fila1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .pedido-cliente { font-size: 0.95rem; font-weight: 800; }
+    .pedido-hora { font-size: 0.75rem; font-weight: 700; background: #f5f5f4; color: #44403c; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+    .pedido-prod { font-size: 0.88rem; color: #44403c; line-height: 1.3; }
+    .pedido-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+    .estados-fila { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 6px; margin-top: 4px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .btn-est { border: 1px solid var(--border); background: #fafaf9; color: var(--muted); border-radius: 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; min-height: 38px; }
+    .btn-est.active-pend { background: var(--pend-bg); color: var(--pend-text); border-color: var(--pend-border); }
+    .btn-est.active-list { background: var(--list-bg); color: var(--list-text); border-color: var(--list-border); }
+    .btn-est.active-entr { background: var(--entr-bg); color: var(--entr-text); border-color: var(--entr-border); }
+    .btn-del { border: none; background: transparent; color: #a8a29e; cursor: pointer; padding: 0 8px; font-size: 1rem; min-height: 38px; }
+    .vacio { text-align: center; padding: 30px 16px; background: var(--card); border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); font-size: 0.85rem; }
+    .acciones-footer { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted); margin-top: 8px; padding: 0 4px; }
+    .link-action { background: none; border: none; color: var(--muted); cursor: pointer; text-decoration: underline; min-height: 44px; }
   </style>
 </head>
 <body>
   <header>
-    <div class="header-content">
+    <div class="header-box">
       <div>
-        <h1>PEDIDOS AL DÍA</h1>
-        <div class="subtitle">Panadería y Cocina Familiar</div>
+        <div class="brand-title">PEDIDOS AL DÍA</div>
+        <div class="brand-sub">Panadería & Cocina Familiar</div>
       </div>
     </div>
   </header>
@@ -86,185 +93,106 @@
   <main>
     <!-- 3. RESUMEN DEL DÍA -->
     <section class="resumen-card">
-      <div class="resumen-title">Resumen del Día</div>
-      <div class="resumen-total-box">
-        <span class="resumen-total-label">Total a cobrar hoy:</span>
-        <span class="resumen-total-amount" id="resumen-total">$0</span>
+      <div class="resumen-top">
+        <span class="resumen-label">Resumen de Hoy</span>
+        <span id="label-fecha" style="font-size: 0.72rem; color: var(--muted); font-weight: 600;"></span>
       </div>
-      <div class="metricas-grid">
-        <div class="metrica-item">
-          <div class="metrica-num" id="cant-pendientes" style="color: var(--pendiente-text);">0</div>
-          <div class="metrica-label">Pendientes</div>
-        </div>
-        <div class="metrica-item">
-          <div class="metrica-num" id="cant-listos" style="color: var(--listo-text);">0</div>
-          <div class="metrica-label">Listos</div>
-        </div>
-        <div class="metrica-item">
-          <div class="metrica-num" id="cant-entregados" style="color: var(--entregado-text);">0</div>
-          <div class="metrica-label">Entregados</div>
-        </div>
+      <div class="total-box">
+        <span class="total-desc">Total a cobrar:</span>
+        <span class="total-monto" id="resumen-total">$0.00</span>
+      </div>
+      <div class="counters-grid">
+        <button class="counter-btn" id="filtro-pend" onclick="aplicarFiltro('pendiente')">
+          <div class="counter-num" id="cant-pend" style="color: var(--pend-text);">0</div>
+          <div class="counter-txt">Pendientes</div>
+        </button>
+        <button class="counter-btn" id="filtro-list" onclick="aplicarFiltro('listo')">
+          <div class="counter-num" id="cant-list" style="color: var(--list-text);">0</div>
+          <div class="counter-txt">Listos</div>
+        </button>
+        <button class="counter-btn" id="filtro-entr" onclick="aplicarFiltro('entregado')">
+          <div class="counter-num" id="cant-entr" style="color: var(--entr-text);">0</div>
+          <div class="counter-txt">Entregados</div>
+        </button>
       </div>
     </section>
 
     <!-- 1. CAPTURAR PEDIDO -->
     <section class="form-card">
-      <h2>+ Nuevo Pedido</h2>
-      <form id="form-pedido">
-        <div class="form-group">
-          <label for="cliente">Nombre del Cliente *</label>
-          <input type="text" id="cliente" required placeholder="Ej: Doña Carmen / Juan (Taller)">
+      <h2>+ Anotar Nuevo Pedido</h2>
+      <div id="alerta-error" class="alerta"></div>
+      <form id="form-nuevo">
+        <div class="campo">
+          <label for="input-cliente">Nombre del Cliente *</label>
+          <input type="text" id="input-cliente" required placeholder="Ej: Doña Carmen / Pedro Taller">
         </div>
-        <div class="form-group">
-          <label for="producto">Producto / Detalle *</label>
-          <input type="text" id="producto" required placeholder="Ej: 2 panes caseros + 6 facturas">
+        <div class="campo">
+          <label for="input-prod">Producto o Detalle *</label>
+          <input type="text" id="input-prod" required placeholder="Ej: 2 panes de campo + 1 rosca">
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="hora">Hora de Entrega *</label>
-            <input type="time" id="hora" required>
+        <div class="grid-2">
+          <div class="campo">
+            <label for="input-hora">Hora de Entrega *</label>
+            <input type="time" id="input-hora" required>
           </div>
-          <div class="form-group">
-            <label for="total">Total a Cobrar ($)</label>
-            <input type="number" id="total" step="0.5" min="0" placeholder="0.00">
+          <div class="campo">
+            <label for="input-total">Total a Cobrar ($)</label>
+            <!-- Permite tanto 0.25 como 0,25 y cualquier número decimal sin restricciones de step -->
+            <input type="text" inputmode="decimal" id="input-total" placeholder="0.25">
           </div>
         </div>
-        <button type="submit" class="btn-primary">Guardar Pedido</button>
+        <button type="submit" class="btn-submit">Guardar Pedido</button>
       </form>
     </section>
 
-    <!-- 2. CAMBIO DE ESTADO Y LISTA DE PEDIDOS -->
-    <section>
-      <div class="pedidos-header">
-        <h2>Pedidos de Hoy</h2>
-        <span class="badge-count" id="badge-total">0 pedidos</span>
+    <!-- 2. CAMBIO DE ESTADO Y LISTA -->
+    <section class="seccion-pedidos">
+      <div class="pedidos-title-bar">
+        <h2>Pedidos Registrados</h2>
+        <span id="filtro-activo-txt" class="filtro-aviso" style="display:none;" onclick="aplicarFiltro('todos')">Mostrar todos</span>
       </div>
-      <div id="lista-pedidos" class="pedidos-list"></div>
+      <div id="contenedor-pedidos"></div>
+      <div class="acciones-footer">
+        <button class="link-action" style="color:#dc2626;" onclick="limpiarTodo()">Reiniciar día</button>
+      </div>
     </section>
   </main>
 
   <script>
-    // PUNTOS CRÍTICOS DONDE ALGUIEN SUELE EQUIVOCARSE:
-    // 1. Manejo de LocalStorage: Siempre envolver JSON.parse en try/catch para evitar pantalla blanca si se corrompe el storage.
-    // 2. Coerción de números: Usar parseFloat y fallback a 0 para no concatenar strings ni obtener NaN en el total acumulado.
-    // 3. Sanitización básica en template strings: Usar textContent o escapar para evitar inyecciones si los clientes contienen símbolos.
-    
-    var STORAGE_KEY = 'pedidos_al_dia_single_file_data';
+    var CLAVE_STORAGE = 'pedidos_al_dia_v2';
     var pedidos = [];
+    var filtroActual = 'todos';
 
-    // Inicializar hora con +30 mins por defecto para conveniencia del usuario
+    document.getElementById('label-fecha').textContent = new Date().toLocaleDateString('es-ES', {
+      weekday: 'short', day: 'numeric', month: 'short'
+    });
+
     (function initHora() {
       var d = new Date();
       d.setMinutes(d.getMinutes() + 30);
       var hh = String(d.getHours()).padStart(2, '0');
       var mm = String(Math.floor(d.getMinutes() / 5) * 5).padStart(2, '0');
-      var inputHora = document.getElementById('hora');
-      if (inputHora) inputHora.value = hh + ':' + mm;
+      document.getElementById('input-hora').value = hh + ':' + mm;
     })();
 
-    // Cargar datos
-    function cargarPedidos() {
-      try {
-        var raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          pedidos = JSON.parse(raw);
-          if (!Array.isArray(pedidos)) pedidos = [];
-        } else {
-          // Datos iniciales de demostración
-          pedidos = [
-            { id: '1', cliente: 'Doña Rosa', producto: '2 panes campesinos', hora: '10:30', total: 7500, estado: 'pendiente' },
-            { id: '2', cliente: 'Carlos (Taller)', producto: '1 docena de medialunas', hora: '11:00', total: 9200, estado: 'listo' },
-            { id: '3', cliente: 'Marta Gómez', producto: '1 tarta de ricota', hora: '09:00', total: 12000, estado: 'entregado' }
-          ];
-        }
-      } catch (err) {
-        console.error('Error al parsear pedidos:', err);
-        pedidos = [];
-      }
-      render();
+    // Parser robusto para admitir 0.25 o 0,25 sin errores
+    function parsePrecio(val) {
+      if (!val) return 0;
+      var limpio = String(val).replace(/[^0-9.,]/g, '').replace(',', '.');
+      var n = parseFloat(limpio);
+      return isNaN(n) ? 0 : Math.max(0, n);
     }
 
-    function guardarYRender() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(pedidos));
-      } catch (err) {
-        console.error('Error al guardar pedidos:', err);
-      }
-      render();
+    function formatearDinero(num) {
+      return '$' + (Number(num) || 0).toLocaleString('es-AR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
     }
 
-    // Formatear montos en moneda legible
-    function formatearMonto(num) {
-      return '$' + (Number(num) || 0).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-    }
-
-    // Renderizar lista y resumen del día
-    function render() {
-      var listaEl = document.getElementById('lista-pedidos');
-      var totalCobrarEl = document.getElementById('resumen-total');
-      var cantPendEl = document.getElementById('cant-pendientes');
-      var cantListEl = document.getElementById('cant-listos');
-      var cantEntrEl = document.getElementById('cant-entregados');
-      var badgeTotalEl = document.getElementById('badge-total');
-
-      var totalDia = 0;
-      var pends = 0;
-      var listos = 0;
-      var entregados = 0;
-
-      // Calcular resumen
-      for (var i = 0; i < pedidos.length; i++) {
-        var p = pedidos[i];
-        totalDia += (parseFloat(p.total) || 0);
-        if (p.estado === 'pendiente') pends++;
-        else if (p.estado === 'listo') listos++;
-        else if (p.estado === 'entregado') entregados++;
-      }
-
-      totalCobrarEl.textContent = formatearMonto(totalDia);
-      cantPendEl.textContent = pends;
-      cantListEl.textContent = listos;
-      cantEntrEl.textContent = entregados;
-      badgeTotalEl.textContent = pedidos.length + (pedidos.length === 1 ? ' pedido' : ' pedidos');
-
-      // Dibujar lista
-      if (pedidos.length === 0) {
-        listaEl.innerHTML = '<div class="empty-state">No hay pedidos registrados todavía.<br>Completá el formulario arriba para empezar.</div>';
-        return;
-      }
-
-      var html = '';
-      for (var j = 0; j < pedidos.length; j++) {
-        var item = pedidos[j];
-        var isPend = item.estado === 'pendiente';
-        var isList = item.estado === 'listo';
-        var isEntr = item.estado === 'entregado';
-
-        html += '<div class="pedido-card">';
-        html += '  <div class="pedido-top">';
-        html += '    <div class="pedido-cliente">' + escapeHtml(item.cliente) + '</div>';
-        html += '    <div class="pedido-hora">⏰ ' + escapeHtml(item.hora) + '</div>';
-        html += '  </div>';
-        html += '  <div class="pedido-producto">' + escapeHtml(item.producto) + '</div>';
-        html += '  <div class="pedido-precio">Total: ' + formatearMonto(item.total) + '</div>';
-        
-        // Botones de cambio de estado
-        html += '  <div class="pedido-actions">';
-        html += '    <button class="btn-estado ' + (isPend ? 'active-pendiente' : '') + '" onclick="cambiarEstado(' + j + ', \'pendiente\')">⏳ Pendiente</button>';
-        html += '    <button class="btn-estado ' + (isList ? 'active-listo' : '') + '" onclick="cambiarEstado(' + j + ', \'listo\')">✨ Listo</button>';
-        html += '    <button class="btn-estado ' + (isEntr ? 'active-entregado' : '') + '" onclick="cambiarEstado(' + j + ', \'entregado\')">✅ Entregado</button>';
-        html += '  </div>';
-
-        html += '  <button class="btn-del" onclick="eliminarPedido(' + j + ')">Eliminar</button>';
-        html += '</div>';
-      }
-      listaEl.innerHTML = html;
-    }
-
-    // Sanitizador básico contra XSS
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
+    function escapeHtml(texto) {
+      if (!texto) return '';
+      return String(texto)
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
@@ -272,59 +200,202 @@
         .replace(/'/g, '&#039;');
     }
 
-    // Funciones globales para eventos onclick
-    window.cambiarEstado = function(index, nuevoEstado) {
-      if (pedidos[index]) {
-        pedidos[index].estado = nuevoEstado;
-        guardarYRender();
+    function inicializar() {
+      try {
+        var raw = localStorage.getItem(CLAVE_STORAGE) || localStorage.getItem('pedidos_al_dia_single_v1');
+        if (raw) {
+          var arr = JSON.parse(raw);
+          if (Array.isArray(arr) && arr.length > 0) {
+            pedidos = arr.map(function(item, i) {
+              return {
+                id: item.id ? String(item.id) : ('p-' + Date.now() + '-' + i),
+                cliente: item.cliente || 'Cliente',
+                producto: item.producto || item.prod || 'Producto',
+                horaEntrega: item.horaEntrega || item.hora || '12:00',
+                total: parsePrecio(item.total),
+                estado: (item.estado === 'listo' || item.estado === 'entregado') ? item.estado : 'pendiente'
+              };
+            });
+          }
+        }
+      } catch (e) {
+        console.error('Error al inicializar:', e);
       }
-    };
+      if (!pedidos || pedidos.length === 0) {
+        pedidos = [
+          { id: '1', cliente: 'Doña Rosa', producto: '2 panes campesinos', horaEntrega: '10:30', total: 7.50, estado: 'pendiente' },
+          { id: '2', cliente: 'Carlos (Taller)', producto: '1 docena de facturas', horaEntrega: '11:00', total: 0.25, estado: 'listo' },
+          { id: '3', cliente: 'Marta Méndez', producto: '1 tarta de ricota', horaEntrega: '09:00', total: 12.00, estado: 'entregado' }
+        ];
+      }
+      render();
+    }
 
-    window.eliminarPedido = function(index) {
+    function guardarYRender() {
+      try {
+        localStorage.setItem(CLAVE_STORAGE, JSON.stringify(pedidos));
+      } catch (e) {
+        console.error('Error guardando:', e);
+      }
+      render();
+    }
+
+    function aplicarFiltro(estado) {
+      filtroActual = (filtroActual === estado) ? 'todos' : estado;
+      render();
+    }
+
+    // CAMBIO DE ESTADO POR ID SEGURO
+    function cambiarEstadoPorId(id, nuevoEstado) {
+      for (var i = 0; i < pedidos.length; i++) {
+        if (pedidos[i].id === id) {
+          pedidos[i].estado = nuevoEstado;
+          break;
+        }
+      }
+      guardarYRender();
+    }
+
+    function eliminarPorId(id) {
       if (confirm('¿Eliminar este pedido?')) {
-        pedidos.splice(index, 1);
+        pedidos = pedidos.filter(function(p) { return p.id !== id; });
         guardarYRender();
       }
-    };
+    }
 
-    // Manejar envío de formulario
-    document.getElementById('form-pedido').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var clienteInput = document.getElementById('cliente');
-      var productoInput = document.getElementById('producto');
-      var horaInput = document.getElementById('hora');
-      var totalInput = document.getElementById('total');
+    function cargarEjemplos() {
+      pedidos = [
+        { id: '1', cliente: 'Doña Rosa', producto: '2 panes campesinos', horaEntrega: '10:30', total: 7.50, estado: 'pendiente' },
+        { id: '2', cliente: 'Carlos (Taller)', producto: '1 docena de facturas', horaEntrega: '11:00', total: 0.25, estado: 'listo' },
+        { id: '3', cliente: 'Marta Méndez', producto: '1 tarta de ricota', horaEntrega: '09:00', total: 12.00, estado: 'entregado' }
+      ];
+      filtroActual = 'todos';
+      guardarYRender();
+    }
 
-      var clienteVal = clienteInput.value.trim();
-      var productoVal = productoInput.value.trim();
-      var horaVal = horaInput.value.trim();
-      // Ojo con parseFloat: si está vacío o no es número, fijar 0
-      var totalVal = parseFloat(totalInput.value) || 0;
+    function limpiarTodo() {
+      if (confirm('¿Reiniciar pedidos de hoy?')) {
+        pedidos = [];
+        filtroActual = 'todos';
+        guardarYRender();
+      }
+    }
 
-      if (!clienteVal || !productoVal || !horaVal) {
-        alert('Por favor completá cliente, producto y hora de entrega.');
+    function render() {
+      var contenedor = document.getElementById('contenedor-pedidos');
+      var totalCobrarEl = document.getElementById('resumen-total');
+      var cantPendEl = document.getElementById('cant-pend');
+      var cantListEl = document.getElementById('cant-list');
+      var cantEntrEl = document.getElementById('cant-entr');
+      var avisoFiltro = document.getElementById('filtro-activo-txt');
+
+      var totalDia = 0;
+      var cPend = 0;
+      var cList = 0;
+      var cEntr = 0;
+
+      for (var i = 0; i < pedidos.length; i++) {
+        var p = pedidos[i];
+        totalDia += (Number(p.total) || 0);
+        if (p.estado === 'pendiente') cPend++;
+        else if (p.estado === 'listo') cList++;
+        else if (p.estado === 'entregado') cEntr++;
+      }
+
+      totalCobrarEl.textContent = formatearDinero(totalDia);
+      cantPendEl.textContent = cPend;
+      cantListEl.textContent = cList;
+      cantEntrEl.textContent = cEntr;
+
+      document.getElementById('filtro-pend').className = 'counter-btn' + (filtroActual === 'pendiente' ? ' active' : '');
+      document.getElementById('filtro-list').className = 'counter-btn' + (filtroActual === 'listo' ? ' active' : '');
+      document.getElementById('filtro-entr').className = 'counter-btn' + (filtroActual === 'entregado' ? ' active' : '');
+
+      if (filtroActual !== 'todos') {
+        avisoFiltro.style.display = 'inline';
+        avisoFiltro.textContent = 'Viendo ' + filtroActual + 's (Ver todos)';
+      } else {
+        avisoFiltro.style.display = 'none';
+      }
+
+      var items = pedidos.filter(function(p) {
+        return filtroActual === 'todos' || p.estado === filtroActual;
+      });
+
+      if (items.length === 0) {
+        contenedor.innerHTML = '<div class="vacio">' + (pedidos.length === 0 ? 'No hay pedidos anotados hoy.<br>Anotá el primero arriba.' : 'No hay pedidos en estado "' + escapeHtml(filtroActual) + '".') + '</div>';
         return;
       }
 
+      var html = '';
+      for (var j = 0; j < items.length; j++) {
+        var it = items[j];
+        var isPend = it.estado === 'pendiente';
+        var isList = it.estado === 'listo';
+        var isEntr = it.estado === 'entregado';
+
+        html += '<article class="pedido-card ' + (isEntr ? 'estado-entregado' : '') + '">';
+        html += '  <div class="card-fila1">';
+        html += '    <div class="pedido-cliente">' + escapeHtml(it.cliente) + '</div>';
+        html += '    <div class="pedido-hora">⏰ ' + escapeHtml(it.horaEntrega) + '</div>';
+        html += '  </div>';
+        html += '  <div class="pedido-prod">' + escapeHtml(it.producto) + '</div>';
+        html += '  <div class="pedido-total-row">';
+        html += '    <span style="font-size:0.75rem; color:var(--muted); font-weight:600;">A cobrar:</span>';
+        html += '    <span>' + formatearDinero(it.total) + '</span>';
+        html += '  </div>';
+        html += '  <div class="estados-fila">';
+        html += '    <button type="button" class="btn-est ' + (isPend ? 'active-pend' : '') + '" onclick="cambiarEstadoPorId(\'' + it.id + '\', \'pendiente\')">⏳ Pendiente</button>';
+        html += '    <button type="button" class="btn-est ' + (isList ? 'active-list' : '') + '" onclick="cambiarEstadoPorId(\'' + it.id + '\', \'listo\')">✨ Listo</button>';
+        html += '    <button type="button" class="btn-est ' + (isEntr ? 'active-entr' : '') + '" onclick="cambiarEstadoPorId(\'' + it.id + '\', \'entregado\')">✅ Entregado</button>';
+        html += '    <button type="button" class="btn-del" title="Eliminar" onclick="eliminarPorId(\'' + it.id + '\')">🗑</button>';
+        html += '  </div>';
+        html += '</article>';
+      }
+      contenedor.innerHTML = html;
+    }
+
+    // REGISTRO DE PEDIDO
+    document.getElementById('form-nuevo').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var errEl = document.getElementById('alerta-error');
+      errEl.style.display = 'none';
+
+      var c = document.getElementById('input-cliente').value.trim();
+      var p = document.getElementById('input-prod').value.trim();
+      var h = document.getElementById('input-hora').value.trim();
+      var t = parsePrecio(document.getElementById('input-total').value);
+
+      if (!c || !p) {
+        errEl.textContent = 'Por favor completá el cliente y el producto.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      if (!h) {
+        var d = new Date();
+        d.setMinutes(d.getMinutes() + 30);
+        h = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+      }
+
       pedidos.unshift({
-        id: String(Date.now()),
-        cliente: clienteVal,
-        producto: productoVal,
-        hora: horaVal,
-        total: totalVal,
+        id: 'p-' + Date.now() + '-' + Math.random().toString(36).substring(2, 6),
+        cliente: c,
+        producto: p,
+        horaEntrega: h,
+        total: t,
         estado: 'pendiente'
       });
 
-      clienteInput.value = '';
-      productoInput.value = '';
-      totalInput.value = '';
-      clienteInput.focus();
+      document.getElementById('input-cliente').value = '';
+      document.getElementById('input-prod').value = '';
+      document.getElementById('input-total').value = '';
+      document.getElementById('input-cliente').focus();
 
       guardarYRender();
     });
 
-    // Iniciar app al cargar ventana
-    window.onload = cargarPedidos;
+    window.onload = inicializar;
   </script>
 </body>
 </html>
