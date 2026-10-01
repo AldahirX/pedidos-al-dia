@@ -14,3 +14,9 @@ CRITERIO DE ACEPTACIÓN: abro la app, agrego un pedido con cliente, producto y h
 2. En la app de PEDIDOS AL DÍA, el campo de precio no me deja ingresar valores como 0.25 (dice "solo números válidos de 0 a 0.5"). 
 
 Corregí la validación para que permita cualquier precio numérico positivo con decimales (por ejemplo, 0.25, 1.50, 10.00). Dame el archivo index.html corregido.
+
+
+3. Quiero que los datos de los pedidos en la app PEDIDOS AL DÍA no se pierdan al cerrar o recargar la pestaña. Usá localStorage.
+
+
+4. Prueba en celular real con pantalla responsive desde 320px, botones adaptados para uso táctil y diseño evidencias/celular.png
